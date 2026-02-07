@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 🌹</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:black;
+  font-family:'Montserrat',sans-serif;
+  overflow:hidden;
+  color:white;
+}
+
+/* background glow */
+.bg{
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at center, rgba(255,0,70,0.25), transparent 60%),
+    linear-gradient(180deg,#000,#050505,#000);
+  animation:pulse 6s infinite alternate;
+}
+@keyframes pulse{
+  from{opacity:0.6;}
+  to{opacity:1;}
+}
+
+/* center container */
+.scene{
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  animation:fadeIn 2s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+.rose{
+  font-size:42px;
+  margin-bottom:20px;
+  animation:slowFloat 4s ease-in-out infinite;
+}
+@keyframes slowFloat{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+  100%{transform:translateY(0);}
+}
+
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;
+  margin-bottom:25px;
+}
+
+.text{
+  font-size:1.1rem;
+  line-height:1.8;
+  opacity:0.95;
+  white-space:pre-wrap;
+  min-height:120px;
+}
+
+.signature{
+  margin-top:30px;
+  font-style:italic;
+  opacity:0.7;
+}
+
+/* creator mode */
+input,textarea{
+  width:100%;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.3);
+  color:white;
+  padding:14px;
+  border-radius:12px;
+  margin-top:12px;
+  font-size:1rem;
+}
+textarea{height:110px;resize:none;}
+
+button{
+  margin-top:20px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff003c,#ff4b2b);
+  color:white;
+  font-size:1.05rem;
+  font-weight:500;
+}
+
+.link{
+  margin-top:18px;
+  font-size:0.85rem;
+  word-break:break-all;
+  opacity:0.85;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="scene">
+
+<!-- CREATOR -->
+<div class="card" id="creator">
+  <div class="rose">🌹</div>
+  <h1>Create Something Personal</h1>
+  <input id="name" placeholder="Her name">
+  <textarea id="msg" placeholder="Write what you never say out loud..."></textarea>
+  <button onclick="makeLink()">Create Link</button>
+  <div class="link" id="link"></div>
+</div>
+
+<!-- VIEWER -->
+<div class="card" id="viewer" style="display:none;">
+  <div class="rose">🌹</div>
+  <h1 id="title"></h1>
+  <div class="text" id="text"></div>
+  <div class="signature">— Always yours</div>
+</div>
+
+</div>
+
+<script>
+const q=new URLSearchParams(location.search);
+if(q.get("n")&&q.get("m")){
+  creator.style.display="none";
+  viewer.style.display="block";
+  title.innerText=q.get("n");
+  typeText(decodeURIComponent(q.get("m")));
+}
+
+function makeLink(){
+  if(!name.value||!msg.value){
+    alert("Fill both fields");
+    return;
+  }
+  const u=location.origin+location.pathname+"?n="+encodeURIComponent("Happy Rose Day, "+name.value)+"&m="+encodeURIComponent(msg.value);
+  link.innerText=u;
+}
+
+function typeText(t){
+  let i=0;
+  const el=text;
+  el.innerText="";
+  const timer=setInterval(()=>{
+    el.innerText+=t.charAt(i);
+    i++;
+    if(i>=t.length) clearInterval(timer);
+  },45);
+}
+</script>
+
+</body>
+</html>
