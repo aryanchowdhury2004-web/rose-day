@@ -160,9 +160,12 @@ function makeLink(){
     alert("Fill both fields");
     return;
   }
-  const u=location.origin+location.pathname+"?n="+encodeURIComponent("Happy Rose Day, "+name.value)+"&m="+encodeURIComponent(msg.value);
-  link.innerText=u;
+  const base = window.location.href.split("?")[0];
+  const u = base + "?n=" + encodeURIComponent("Happy Rose Day, " + name.value) +
+            "&m=" + encodeURIComponent(msg.value);
+  link.innerText = u;
 }
+
 
 function typeText(t){
   let i=0;
@@ -178,3 +181,4 @@ function typeText(t){
 
 </body>
 </html>
+
